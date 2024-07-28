@@ -5,7 +5,7 @@
         <provider
             android:name=".ActivityWatcherInstaller"
             android:authorities="${applicationId}.a11y-analyzer-installer"
-            android:enabled="true"
+            android:enabled="@bool/a11y_analyzer_watcher_auto_install"
             android:exported="false"/>
     </application>
 
