@@ -80,7 +80,7 @@ data class ActivityWatcher(val application: Application) {
 
         val decorView = activity.window.decorView
 
-        decorView.viewTreeObserver.addOnGlobalLayoutListener {
+        decorView.viewTreeObserver.addOnDrawListener {
 
             nodes = activity.window.getNodes()
 
