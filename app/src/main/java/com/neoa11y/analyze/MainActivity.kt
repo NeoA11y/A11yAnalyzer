@@ -9,6 +9,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
+        setContent {
+            A11yAnalyzerTheme {
+                MainScreen()
+            }
+        }
     }
 }

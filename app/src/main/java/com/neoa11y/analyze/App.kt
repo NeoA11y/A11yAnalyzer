@@ -7,6 +7,6 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        ActivityWatcher.install(this)
+        ActivityWatcher(this)
     }
 }

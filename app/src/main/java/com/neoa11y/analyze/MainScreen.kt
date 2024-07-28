@@ -19,7 +19,7 @@ import com.neoa11y.analyze.ui.theme.A11yAnalyzerTheme
 fun MainScreen(
     modifier: Modifier = Modifier
 ) = Box(
-    modifier = modifier.fillMaxSize().testTag("test"),
+    modifier = modifier.fillMaxSize(),
     contentAlignment = Alignment.Center
 ) {
     Column {
@@ -30,7 +30,6 @@ fun MainScreen(
         Button(onClick = { }) {
             Text("Button")
         }
-
     }
 }
 
