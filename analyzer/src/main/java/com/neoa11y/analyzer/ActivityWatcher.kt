@@ -5,65 +5,7 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import android.view.ViewGroup
-import android.view.accessibility.AccessibilityNodeInfo
-import androidx.compose.ui.node.RootForTest
-import androidx.compose.ui.platform.ViewRootForTest
-import androidx.compose.ui.semantics.getAllSemanticsNodes
-import androidx.core.view.descendants
-
-operator fun AccessibilityNodeInfo.iterator() =
-    object : Iterator<AccessibilityNodeInfo> {
-
-        private var index = 0
-        override fun hasNext() = index < childCount
-        override fun next() = getChild(index++) ?: throw IndexOutOfBoundsException()
-
-    }
-
-val AccessibilityNodeInfo.children: Sequence<AccessibilityNodeInfo>
-    get() = object : Sequence<AccessibilityNodeInfo> {
-        override fun iterator() = this@children.iterator()
-    }
-
-internal class TreeIterator<T>(
-    rootIterator: Iterator<T>,
-    private val getChildIterator: ((T) -> Iterator<T>)
-) : Iterator<T> {
-    private val stack = mutableListOf<Iterator<T>>()
-
-    private var iterator: Iterator<T> = rootIterator
-
-    override fun hasNext(): Boolean {
-        return iterator.hasNext()
-    }
-
-    override fun next(): T {
-        val item = iterator.next()
-        prepareNextIterator(item)
-        return item
-    }
-
-    private fun prepareNextIterator(item: T) {
-        val childIterator = getChildIterator(item)
-
-        if (childIterator.hasNext()) {
-            stack.add(iterator)
-            iterator = childIterator
-        } else {
-            while (!iterator.hasNext() && stack.isNotEmpty()) {
-                iterator = stack.last()
-                stack.removeLast()
-            }
-        }
-    }
-}
-
-val AccessibilityNodeInfo.descendants: Sequence<AccessibilityNodeInfo>
-    get() = Sequence {
-        TreeIterator(children.iterator()) { child ->
-            child.children.iterator()
-        }
-    }
+import com.neoa11y.analyzer.extension.getNodes
 
 @SuppressLint("StaticFieldLeak")
 data class ActivityWatcher(val application: Application) {
@@ -108,6 +50,7 @@ data class ActivityWatcher(val application: Application) {
     }
 
     private fun install(activity: Activity) {
+
         overlay = ViewOverlay(activity)
 
         val decorView = activity.window.decorView as ViewGroup
@@ -130,24 +73,11 @@ data class ActivityWatcher(val application: Application) {
 
     private fun analyzer(activity: Activity) {
 
-        val decorView = activity.window.decorView as ViewGroup
+        val decorView = activity.window.decorView
 
         decorView.viewTreeObserver.addOnGlobalLayoutListener {
 
-            val composeView = decorView.descendants.firstInstance<ViewRootForTest>()
-
-            nodes = composeView.semanticsOwner.getAllSemanticsNodes(
-                mergingEnabled = true
-            ).map {
-                val rect = it.boundsInWindow
-
-                Node(
-                    rect.left,
-                    rect.top,
-                    rect.width.toInt(),
-                    rect.height.toInt()
-                )
-            }
+            nodes = activity.window.getNodes()
 
             draw()
         }
@@ -159,20 +89,4 @@ data class ActivityWatcher(val application: Application) {
         overlay?.nodes = nodes
         overlay?.invalidate()
     }
-}
-
-inline fun <reified T> Sequence<*>.firstInstance(): T {
-    val iterator = iterator()
-
-    while (iterator.hasNext()) {
-        val item = iterator.next()
-
-        if (item is T) {
-            return item
-        }
-    }
-
-    throw NoSuchElementException(
-        "Sequence contains no element matching the predicate."
-    )
 }
