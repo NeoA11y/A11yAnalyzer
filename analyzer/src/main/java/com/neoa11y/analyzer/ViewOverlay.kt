@@ -13,7 +13,7 @@ class ViewOverlay(
     private val paint = Paint().apply {
         color = Color.RED
         style = Paint.Style.STROKE
-        strokeWidth = 8f
+        strokeWidth = 4f
     }
 
     var nodes: List<Node> = emptyList()

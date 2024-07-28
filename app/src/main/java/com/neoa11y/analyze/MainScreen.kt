@@ -3,12 +3,10 @@ package com.neoa11y.analyze
 import android.content.Intent
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -39,23 +37,29 @@ fun MainScreen(
 ) {
 
     val onBackPressedDispatcher =
-        LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+        LocalOnBackPressedDispatcherOwner.current
+            ?.onBackPressedDispatcher
 
     IconButton(
         onClick = {
             onBackPressedDispatcher?.onBackPressed()
         }
     ) {
-        Icon(Icons.Filled.ArrowBack, contentDescription = null)
+        Icon(
+            Icons.Filled.ArrowBack,
+            contentDescription = "voltar"
+        )
     }
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-        var showText by remember { mutableStateOf(false) }
+        var showText by remember { mutableStateOf(true) }
 
         if (showText) {
-            Text("Hello, World!")
-            Spacer(modifier = Modifier.height(8.dp))
+            Text("Compose")
+            Spacer(
+                modifier = Modifier.height(8.dp)
+            )
         }
 
         Button(
@@ -78,9 +82,13 @@ fun MainScreen(
             )
         }
     ) {
-        Icon(Icons.Filled.ArrowForward, contentDescription = null)
+        Icon(
+            Icons.Filled.ArrowForward,
+            contentDescription = "avançar"
+        )
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {

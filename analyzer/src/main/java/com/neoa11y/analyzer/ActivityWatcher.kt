@@ -36,7 +36,11 @@ data class ActivityWatcher(val application: Application) {
                     analyzer(activity)
                 }
 
-                override fun onActivityPaused(activity: Activity) = Unit
+                override fun onActivityPaused(activity: Activity) {
+                    val decorView = activity.window.decorView as ViewGroup
+
+                    decorView.removeView(overlay)
+                }
 
                 override fun onActivityStopped(activity: Activity) = Unit
 
