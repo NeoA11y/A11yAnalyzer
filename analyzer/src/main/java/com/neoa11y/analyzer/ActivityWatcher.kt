@@ -14,7 +14,12 @@ data class ActivityWatcher(val application: Application) {
     private var nodes: List<Node> = emptyList()
     private var overlay: ViewOverlay? = null
 
-    init {
+    private var installed = false
+
+    fun install() {
+
+        if (installed) throw IllegalStateException("Already installed")
+
         application.registerActivityLifecycleCallbacks(
             object : Application.ActivityLifecycleCallbacks {
 
