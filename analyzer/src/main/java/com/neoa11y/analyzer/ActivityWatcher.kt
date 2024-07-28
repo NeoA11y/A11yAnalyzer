@@ -26,11 +26,11 @@ data class ActivityWatcher(val application: Application) {
                 override fun onActivityCreated(
                     activity: Activity,
                     savedInstanceState: Bundle?
-                ) {
+                ) = Unit
+
+                override fun onActivityStarted(activity: Activity) {
                     install(activity)
                 }
-
-                override fun onActivityStarted(activity: Activity) = Unit
 
                 override fun onActivityResumed(activity: Activity) {
                     analyzer(activity)
@@ -56,16 +56,13 @@ data class ActivityWatcher(val application: Application) {
 
     private fun install(activity: Activity) {
 
-        overlay = ViewOverlay(activity)
-
         val decorView = activity.window.decorView as ViewGroup
 
-        val found = decorView.findViewWithTag<ViewOverlay>("overlay")
+        overlay = decorView.findViewWithTag("overlay")
 
-        if (found != null) {
-            overlay = found
-            return
-        }
+        if (overlay != null) return
+
+        overlay = ViewOverlay(activity)
 
         decorView.addView(
             overlay,
