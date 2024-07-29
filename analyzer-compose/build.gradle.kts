@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.neoa11y.analyzer"
+    namespace = "com.neoa11y.analyzer.compose"
     compileSdk = 34
 
     defaultConfig {
@@ -33,6 +33,11 @@ android {
 }
 
 dependencies {
+
+    api(project(":analyzer"))
+
+    implementation(libs.androidx.ui)
+    implementation(platform(libs.androidx.compose.bom))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

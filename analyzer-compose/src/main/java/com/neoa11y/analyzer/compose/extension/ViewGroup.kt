@@ -1,4 +1,4 @@
-package com.neoa11y.analyzer.extension
+package com.neoa11y.analyzer.compose.extension
 
 import android.view.ViewGroup
 import androidx.core.view.descendants

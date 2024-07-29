@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "A11yAnalyzer"
 include(":app")
 include(":analyzer")
+include(":analyzer-compose")

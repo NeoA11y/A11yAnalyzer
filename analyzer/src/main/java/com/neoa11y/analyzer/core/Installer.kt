@@ -1,22 +1,11 @@
-package com.neoa11y.analyzer
+package com.neoa11y.analyzer.core
 
-import android.app.Application
 import android.content.ContentProvider
 import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
 
-internal class ActivityWatcherInstaller : ContentProvider() {
-
-    override fun onCreate(): Boolean {
-
-        val context = checkNotNull(context)
-        val application = context.applicationContext as Application
-
-        ActivityWatcher(application).install()
-
-        return true
-    }
+abstract class Installer : ContentProvider() {
 
     override fun query(
         uri: Uri,

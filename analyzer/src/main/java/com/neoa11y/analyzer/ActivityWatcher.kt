@@ -5,20 +5,22 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import android.view.ViewGroup
-import com.neoa11y.analyzer.extension.getNodes
+import com.neoa11y.analyzer.core.Analyzer
+import com.neoa11y.analyzer.core.Node
 
 @SuppressLint("StaticFieldLeak")
-data class ActivityWatcher(val application: Application) {
+data class ActivityWatcher(
+    val application: Application,
+    val analyzer: Analyzer
+) {
 
     private var current: Activity? = null
     private var nodes: List<Node> = emptyList()
     private var overlay: ViewOverlay? = null
 
-    private var installed = false
-
     fun install() {
 
-        if (installed) throw IllegalStateException("Already installed")
+        if (installed) return
 
         application.registerActivityLifecycleCallbacks(
             object : Application.ActivityLifecycleCallbacks {
@@ -56,6 +58,8 @@ data class ActivityWatcher(val application: Application) {
                 }
             }
         )
+
+        installed = true
     }
 
     private fun install(activity: Activity) {
@@ -83,7 +87,7 @@ data class ActivityWatcher(val application: Application) {
 
         decorView.viewTreeObserver.addOnDrawListener {
 
-            nodes = activity.window.getNodes()
+            nodes = analyzer(activity.window)
 
             draw()
         }
@@ -94,5 +98,9 @@ data class ActivityWatcher(val application: Application) {
 
         overlay?.nodes = nodes
         overlay?.invalidate()
+    }
+
+    companion object {
+        private var installed = false
     }
 }

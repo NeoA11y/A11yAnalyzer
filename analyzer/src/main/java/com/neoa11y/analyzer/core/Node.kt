@@ -1,4 +1,4 @@
-package com.neoa11y.analyzer
+package com.neoa11y.analyzer.core
 
 data class Node(
     val x: Float,

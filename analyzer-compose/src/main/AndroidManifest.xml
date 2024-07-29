@@ -3,11 +3,11 @@
 
     <application>
         <provider
-            android:name=".ViewAnalyzerInstaller"
-            android:authorities="${applicationId}.a11y-analyzer-installers"
+            android:name=".ComposeAnalyzerInstaller"
+            android:authorities="${applicationId}.a11y-analyzer-compose-installers"
             android:enabled="@bool/a11y_analyzer_watcher_auto_install"
-            android:initOrder="1"
-            android:exported="false"/>
+            android:initOrder="2"
+            android:exported="false" />
     </application>
 
 </manifest>
