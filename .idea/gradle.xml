@@ -9,9 +9,13 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/analyzer" />
             <option value="$PROJECT_DIR$/analyzer-compose" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/analyzer-core" />
+            <option value="$PROJECT_DIR$/analyzer-view" />
+            <option value="$PROJECT_DIR$/example" />
+            <option value="$PROJECT_DIR$/example/compose" />
+            <option value="$PROJECT_DIR$/example/interoperability" />
+            <option value="$PROJECT_DIR$/example/view-only" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

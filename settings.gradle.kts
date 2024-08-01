@@ -20,6 +20,13 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "A11yAnalyzer"
-include(":app")
-include(":analyzer")
+
+// library
+include(":analyzer-view")
 include(":analyzer-compose")
+include(":analyzer-core")
+
+// examples
+include(":example:view-only")
+include(":example:compose")
+include(":example:interoperability")

@@ -3,7 +3,7 @@
 
     <application>
         <provider
-            android:name=".ComposeAnalyzerInstaller"
+            android:name=".ComposeInstaller"
             android:authorities="${applicationId}.a11y-analyzer-compose-installers"
             android:enabled="@bool/a11y_analyzer_watcher_auto_install"
             android:initOrder="2"
