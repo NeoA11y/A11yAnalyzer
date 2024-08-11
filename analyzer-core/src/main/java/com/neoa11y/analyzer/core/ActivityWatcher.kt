@@ -14,7 +14,8 @@ data class ActivityWatcher(
 
     private var current: Activity? = null
     private var nodes: List<Node> = emptyList()
-    private var overlay: ViewOverlay? = null
+    private var infos: InfosViewLayer? = null
+    private var controls: ControlsViewLayer? = null
 
     fun install() {
 
@@ -28,9 +29,7 @@ data class ActivityWatcher(
                     savedInstanceState: Bundle?
                 ) = Unit
 
-                override fun onActivityStarted(activity: Activity) {
-                    install(activity)
-                }
+                override fun onActivityStarted(activity: Activity) = Unit
 
                 override fun onActivityResumed(activity: Activity) {
                     install(activity)
@@ -40,7 +39,8 @@ data class ActivityWatcher(
                 override fun onActivityPaused(activity: Activity) {
                     val decorView = activity.window.decorView as ViewGroup
 
-                    decorView.removeView(overlay)
+                    decorView.removeView(infos)
+                    infos = null
                 }
 
                 override fun onActivityStopped(activity: Activity) = Unit
@@ -64,39 +64,35 @@ data class ActivityWatcher(
     private fun install(activity: Activity) {
 
         val decorView = activity.window.decorView as ViewGroup
+        val content = activity.window.content
 
-        overlay = decorView.findViewWithTag("overlay")
+        infos = decorView.findViewWithTag(InfosViewLayer.TAG)
+        controls = content.findViewWithTag(ControlsViewLayer.TAG)
 
-        if (overlay != null) return
+        if (infos == null) {
+            infos = InfosViewLayer(activity)
 
-        overlay = ViewOverlay(activity)
+            decorView.addView(infos)
+        }
 
-        decorView.addView(
-            overlay,
-            ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-        )
+        if (controls == null) {
+            controls = ControlsViewLayer(activity)
+
+            content.addView(controls)
+        }
     }
 
     private fun analyzer(activity: Activity) {
 
-        val decorView = activity.window.decorView
+        activity
+            .window
+            .content
+            .viewTreeObserver.addOnDrawListener {
 
-        decorView.viewTreeObserver.addOnDrawListener {
+                nodes = analyzer(activity.window)
 
-            nodes = analyzer(activity.window)
-
-            draw()
-        }
-    }
-
-    private fun draw() {
-        if (overlay?.nodes == nodes) return
-
-        overlay?.nodes = nodes
-        overlay?.invalidate()
+                infos?.nodes = nodes
+            }
     }
 
     companion object {

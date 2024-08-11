@@ -1,27 +1,35 @@
 package com.neoa11y.analyzer
 
-import android.view.ViewGroup
+import android.graphics.Rect
 import android.view.Window
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.core.view.descendants
 import com.neoa11y.analyzer.core.Analyzer
 import com.neoa11y.analyzer.core.Node
+import com.neoa11y.analyzer.core.content
 
 internal class ViewAnalyzer : Analyzer {
     override fun invoke(window: Window): List<Node> {
 
-        val decorView = window.decorView as ViewGroup
+        return window.content.descendants.mapNotNull {
 
-        return decorView.descendants.map {
+            val node = AccessibilityNodeInfoCompat.obtain()
 
-            val location = IntArray(2)
+            it.onInitializeAccessibilityNodeInfo(node.unwrap())
 
-            it.getLocationOnScreen(location)
+            if (!node.isImportantForAccessibility) {
+                return@mapNotNull null
+            }
+
+            val rect = Rect().apply {
+                node.getBoundsInScreen(this)
+            }
 
             Node(
-                location[0].toFloat(),
-                location[1].toFloat(),
-                it.width,
-                it.height
+                rect.left.toFloat(),
+                rect.top.toFloat(),
+                rect.width(),
+                rect.height()
             )
         }.toList()
     }

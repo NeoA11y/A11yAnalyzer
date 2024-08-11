@@ -5,10 +5,11 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.view.View
+import kotlin.properties.Delegates
 
-class ViewOverlay(
+class InfosViewLayer(
     context: Context,
-) : View(context) {
+) : View(context), ViewLayer {
 
     private val paint = Paint().apply {
         color = Color.RED
@@ -16,10 +17,12 @@ class ViewOverlay(
         strokeWidth = 4f
     }
 
-    var nodes: List<Node> = emptyList()
+    var nodes by Delegates.observable(listOf<Node>()) { _, _, _ ->
+        invalidate()
+    }
 
     init {
-        tag = "overlay"
+        tag = TAG
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -34,5 +37,9 @@ class ViewOverlay(
                 paint
             )
         }
+    }
+
+    companion object {
+        const val TAG = "infos_view_layer"
     }
 }
