@@ -23,37 +23,34 @@
         android:layout_width="4dp"
         android:layout_height="match_parent" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ib_toggle"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
         android:importantForAccessibility="no"
-        android:tint="@color/selector_activation"
+        app:tint="@color/selector_activation"
         app:srcCompat="@drawable/selector_activation_toggle" />
 
     <Space
         android:layout_width="4dp"
         android:layout_height="match_parent" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ib_touch_app"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
         android:importantForAccessibility="no"
-        android:tint="@color/selector_activation"
+        app:tint="@color/selector_activation"
         app:srcCompat="@drawable/ic_touch_app_24" />
 
     <Space
         android:layout_width="4dp"
         android:layout_height="match_parent" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ib_settings"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
         android:importantForAccessibility="no"
         app:srcCompat="@drawable/ic_settings_24" />
 
