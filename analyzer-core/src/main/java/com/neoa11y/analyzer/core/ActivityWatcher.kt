@@ -33,6 +33,7 @@ data class ActivityWatcher(
                 }
 
                 override fun onActivityResumed(activity: Activity) {
+                    install(activity)
                     analyzer(activity)
                 }
 
