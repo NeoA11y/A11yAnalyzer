@@ -1,8 +1,8 @@
 package com.neoa11y.analyzer.core
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.widget.FrameLayout
 import androidx.core.view.updateLayoutParams
 import com.neoa11y.analyzer.core.databinding.ControlsBinding
@@ -34,37 +34,12 @@ class ControlsViewLayer(
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setupDragAndDrop() {
 
-        var initialX = 0f
-        var initialY = 0f
-
-        binding.root.setOnTouchListener { view, event ->
-
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    initialX = view.x - event.rawX
-                    initialY = view.y - event.rawY
-                    true
-                }
-
-                MotionEvent.ACTION_MOVE -> {
-                    view.x = (event.rawX + initialX).coerceIn(
-                        minimumValue = 0f,
-                        maximumValue = width.toFloat() - view.width
-                    )
-
-                    view.y = (event.rawY + initialY).coerceIn(
-                        minimumValue = 0f,
-                        maximumValue = height.toFloat() - view.height
-                    )
-
-                    true
-                }
-
-                else -> false
-            }
-        }
+        binding.root.setOnTouchListener(
+            DragHandleTouchListener(binding.root, this)
+        )
     }
 
     companion object {

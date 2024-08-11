@@ -1,17 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_controls"
     android:importantForAccessibility="no"
     android:orientation="horizontal"
     android:paddingHorizontal="6dp"
-    android:paddingVertical="4dp">
+    android:paddingVertical="4dp"
+    tools:ignore="KeyboardInaccessibleWidget">
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_drag_handle"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:importantForAccessibility="no"
+        app:srcCompat="@drawable/drag_indicator_24"
+        app:tint="#BDBDBD" />
+
+    <Space
+        android:layout_width="4dp"
+        android:layout_height="match_parent" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:importantForAccessibility="no"
         app:srcCompat="@drawable/twotone_toggle_off_24" />
 
     <Space
@@ -21,6 +38,9 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:importantForAccessibility="no"
         app:srcCompat="@drawable/twotone_touch_app_24" />
 
     <Space
@@ -30,6 +50,9 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:importantForAccessibility="no"
         app:srcCompat="@drawable/twotone_settings_24" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
