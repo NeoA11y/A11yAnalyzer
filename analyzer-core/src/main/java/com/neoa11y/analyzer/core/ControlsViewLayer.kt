@@ -18,8 +18,20 @@ class ControlsViewLayer(
     init {
         setupDragAndDrop()
         applyWindowInsets()
+        setupView()
 
         tag = TAG
+    }
+
+    private fun setupView() {
+
+        binding.ibToggle.setOnClickListener {
+            it.isActivated = !it.isActivated
+        }
+
+        binding.ibTouchApp.setOnClickListener {
+            it.isActivated = !it.isActivated
+        }
     }
 
     private fun applyWindowInsets() {
