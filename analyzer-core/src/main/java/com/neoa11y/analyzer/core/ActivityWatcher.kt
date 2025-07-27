@@ -13,7 +13,6 @@ data class ActivityWatcher(
 ) {
 
     private var current: Activity? = null
-    private var nodes: List<Node> = emptyList()
     private var infos: InfosViewLayer? = null
     private var controls: ControlsViewLayer? = null
 
@@ -64,10 +63,9 @@ data class ActivityWatcher(
     private fun install(activity: Activity) {
 
         val decorView = activity.window.decorView as ViewGroup
-        val content = activity.window.content
 
         infos = decorView.findViewWithTag(InfosViewLayer.TAG)
-        controls = content.findViewWithTag(ControlsViewLayer.TAG)
+        controls = decorView.findViewWithTag(ControlsViewLayer.TAG)
 
         if (infos == null) {
             infos = InfosViewLayer(activity)
@@ -78,20 +76,16 @@ data class ActivityWatcher(
         if (controls == null) {
             controls = ControlsViewLayer(activity)
 
-            content.addView(controls)
+            decorView.addView(controls)
         }
     }
 
     private fun analyzer(activity: Activity) {
-
         activity
             .window
-            .content
+            .decorView
             .viewTreeObserver.addOnDrawListener {
-
-                nodes = analyzer(activity.window)
-
-                infos?.nodes = nodes
+                infos?.nodes = analyzer(activity.window)
             }
     }
 

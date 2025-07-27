@@ -21,6 +21,10 @@ internal class ViewAnalyzer : Analyzer {
                 return@mapNotNull null
             }
 
+            if (!node.isVisibleToUser) {
+                return@mapNotNull null
+            }
+
             val rect = Rect().apply {
                 node.getBoundsInScreen(this)
             }
