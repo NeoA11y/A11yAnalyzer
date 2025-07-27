@@ -1,9 +1,11 @@
 package com.neoa11y.analyzer.core
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.view.MotionEvent
 import android.view.View
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.lifecycle.Lifecycle
@@ -27,6 +29,10 @@ class InfosViewLayer(
     private val lifecycleRegistry = LifecycleRegistry(this)
 
     override val lifecycle = lifecycleRegistry
+
+    var selected by Delegates.observable<Int?>(null) { _, _, _ ->
+        invalidate()
+    }
 
     var nodes by Delegates.observable(listOf<Node>()) { _, _, _ ->
         invalidate()
@@ -68,7 +74,13 @@ class InfosViewLayer(
 
         if (!active) return
 
+
         nodes.forEach { node ->
+            paint.color = if (node.id == selected) {
+                Color.RED
+            } else {
+                Color.BLUE
+            }
             canvas.drawRect(
                 node.x,
                 node.y,
@@ -77,6 +89,23 @@ class InfosViewLayer(
                 paint
             )
         }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+
+        if (active && event.action == MotionEvent.ACTION_DOWN) {
+            selected = nodes.find { node ->
+                event.x >= node.x &&
+                        event.x <= node.x + node.width &&
+                        event.y >= node.y &&
+                        event.y <= node.y + node.height
+            }?.id
+
+            return true
+        }
+
+        return super.onTouchEvent(event)
     }
 
     companion object {

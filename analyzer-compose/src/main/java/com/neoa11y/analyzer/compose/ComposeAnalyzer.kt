@@ -1,3 +1,5 @@
+@file:SuppressLint("VisibleForTests")
+
 package com.neoa11y.analyzer.compose
 
 import android.annotation.SuppressLint
@@ -11,7 +13,6 @@ import com.neoa11y.analyzer.core.Analyzer
 import com.neoa11y.analyzer.core.Node
 import com.neoa11y.analyzer.core.content
 
-@SuppressLint("VisibleForTests")
 internal class ComposeAnalyzer : Analyzer {
 
     override fun invoke(window: Window): List<Node> {
@@ -22,11 +23,12 @@ internal class ComposeAnalyzer : Analyzer {
             mergingEnabled = true
         ).filterNot {
             it.config.getOrNull(SemanticsProperties.Text).isNullOrEmpty()
-        }.map {
+        }.map { node ->
 
-            val rect = it.boundsInWindow
+            val rect = node.boundsInWindow
 
             Node(
+                node.id,
                 rect.left,
                 rect.top,
                 rect.width.toInt(),

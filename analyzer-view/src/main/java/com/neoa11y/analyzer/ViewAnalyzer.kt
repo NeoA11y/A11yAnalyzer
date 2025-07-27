@@ -30,6 +30,7 @@ internal class ViewAnalyzer : Analyzer {
             }
 
             Node(
+                it.id,
                 rect.left.toFloat(),
                 rect.top.toFloat(),
                 rect.width(),
