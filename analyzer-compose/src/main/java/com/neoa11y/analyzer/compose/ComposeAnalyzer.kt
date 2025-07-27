@@ -25,14 +25,15 @@ internal class ComposeAnalyzer : Analyzer {
             it.config.getOrNull(SemanticsProperties.Text).isNullOrEmpty()
         }.map { node ->
 
-            val rect = node.boundsInWindow
+            val rect = node.boundsInRoot
 
             Node(
                 node.id,
                 rect.left,
                 rect.top,
                 rect.width.toInt(),
-                rect.height.toInt()
+                rect.height.toInt(),
+                node.config[SemanticsProperties.Text].first().text
             )
         }
     }

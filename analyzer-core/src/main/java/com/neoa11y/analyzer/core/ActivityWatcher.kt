@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.ViewGroup
 
 @SuppressLint("StaticFieldLeak")
@@ -63,14 +64,15 @@ data class ActivityWatcher(
     private fun install(activity: Activity) {
 
         val decorView = activity.window.decorView as ViewGroup
+        val content = activity.window.content
 
-        infos = decorView.findViewWithTag(InfosViewLayer.TAG)
+        infos = content.findViewWithTag(InfosViewLayer.TAG)
         controls = decorView.findViewWithTag(ControlsViewLayer.TAG)
 
         if (infos == null) {
             infos = InfosViewLayer(activity)
 
-            decorView.addView(infos)
+            content.addView(infos)
         }
 
         if (controls == null) {

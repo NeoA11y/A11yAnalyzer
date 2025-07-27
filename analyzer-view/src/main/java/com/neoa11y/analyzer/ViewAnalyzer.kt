@@ -34,7 +34,8 @@ internal class ViewAnalyzer : Analyzer {
                 rect.left.toFloat(),
                 rect.top.toFloat(),
                 rect.width(),
-                rect.height()
+                rect.height(),
+                node.text.toString()
             )
         }.toList()
     }
